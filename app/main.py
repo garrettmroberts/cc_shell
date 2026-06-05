@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-builtins = ["exit", "echo", "type"]
+builtins = ["exit", "echo", "type", "pwd", "cd"]
 
 def main():
     is_running = True
@@ -31,6 +31,16 @@ def run_builtin(input):
         print(" ".join(args))
     elif cmd == "type":
         type(args[0])
+    elif cmd == "pwd":
+        print(os.getcwd())
+    elif cmd == "cd":
+        try:
+            if args[0] == "~":
+                os.chdir(os.environ.get("HOME"))
+            else:
+                os.chdir(args[0])
+        except FileNotFoundError:
+            print("cd: " + args[0] + ": No such file or directory")
     return True
 
 
